@@ -1,0 +1,51 @@
+name: my_food_tracker
+description: "Track your calories with AI-powered food recognition"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 📱 UI Moderna & Animaciones
+  cupertino_icons: ^1.0.6
+  flutter_svg: ^2.0.9                    # Para iconos e ilustraciones modernas
+  shimmer: ^3.0.0                        # Efectos de brillo/loading (glossy)
+  animated_text_kit: ^4.2.2              # Textos animados
+  page_transition: ^2.0.9                # Transiciones personalizadas entre pantallas
+  confetti: ^0.7.0                       # Efectos de celebración (para metas alcanzadas)
+  liquid_swipe: ^3.1.0                   # Transiciones fluidas tipo "onboarding"
+
+  # 🏗️ Arquitectura & Estado (BLoC)
+  flutter_bloc: ^8.1.3
+  bloc: ^8.1.2
+  equatable: ^2.0.5                      # Para comparar objetos fácilmente
+
+  # 💾 Base de Datos (SQFlite) & Persistencia
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  path_provider: ^2.0.15
+
+  # 📅 Utilidades Fecha/Hora
+  intl: ^0.18.1                          # Formateo de fechas, números, etc.
+  table_calendar: ^3.0.9                 # Para vista de calendario (historial)
+
+  # 📊 Gráficas
+  fl_chart: ^0.66.2                      # Gráficos muy personalizables y modernos
+
+  # 🔧 Otras Utilidades
+  uuid: ^3.0.7                           # Generar IDs únicos
+  image_picker: ^1.2.1                   # Cámara/galería
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1                  # Análisis de código mejorado
+  bloc_test: ^9.1.4                      # Para testear BLoCs
+
+flutter:
+  uses-material-design: true
