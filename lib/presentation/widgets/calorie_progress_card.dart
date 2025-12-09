@@ -13,7 +13,7 @@ class CalorieProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double progress = goal > 0 ? consumed / goal : 0.0;
+    const double progress = 1.0;
     final double remaining = goal - consumed;
     final Color ringColor = _getProgressColor(progress);
 
@@ -22,11 +22,22 @@ class CalorieProgressCard extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Row(
           children: [
-            // Anillo de progreso animado
-            _buildProgressRing(progress, ringColor),
-            const SizedBox(width: 24),
-            // Información detallada
-            Expanded(child: _buildProgressInfo(progress, remaining, context)),
+            // 🔥 Mitad izquierda: Anillo de progreso
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12.0), // Separación interna
+                child: _buildProgressRing(progress, ringColor),
+              ),
+            ),
+            // 🔥 Mitad derecha: Información detallada
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12.0), // Separación interna
+                child: _buildProgressInfo(progress, remaining, context),
+              ),
+            ),
           ],
         ),
       ),
@@ -34,62 +45,71 @@ class CalorieProgressCard extends StatelessWidget {
   }
 
   Widget _buildProgressRing(double progress, Color color) {
-    return SizedBox(
-      width: 120,
-      height: 120,
-      child: Stack(
+    // 🔥 Usamos AspectRatio para un círculo responsivo y cuadrado
+    return AspectRatio(
+      aspectRatio: 1, // Esto fuerza un cuadrado perfecto
+      child: Container(
         alignment: Alignment.center,
-        children: [
-          // Anillo de fondo
-          CircularProgressIndicator(
-            value: 1.0,
-            strokeWidth: 12,
-            valueColor: AlwaysStoppedAnimation(Colors.grey[200]),
-          ),
-          // Anillo de progreso animado
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.0, end: progress.clamp(0.0, 1.0)),
-            duration: const Duration(milliseconds: 1000),
-            curve: Curves.easeOut,
-            builder: (context, value, child) {
-              return CircularProgressIndicator(
-                value: value,
-                strokeWidth: 12,
-                valueColor: AlwaysStoppedAnimation(color),
-                backgroundColor: Colors.transparent,
-              );
-            },
-          ),
-          // Porcentaje centrado
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${(progress * 100).toStringAsFixed(0)}%',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  color: AppTheme.primary,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Anillo de fondo
+            SizedBox.expand(
+              child: CircularProgressIndicator(
+                value: 1.0,
+                strokeWidth: 12, // Reducido ligeramente para el nuevo tamaño
+                valueColor: AlwaysStoppedAnimation(Colors.grey[200]),
+              ),
+            ),
+            // Anillo de progreso animado
+            SizedBox.expand(
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: progress.clamp(0.0, 1.0)),
+                duration: const Duration(milliseconds: 1000),
+                curve: Curves.easeOut,
+                builder: (context, value, child) {
+                  return CircularProgressIndicator(
+                    value: value,
+                    strokeWidth: 12,
+                    valueColor: AlwaysStoppedAnimation(color),
+                    backgroundColor: Colors.transparent,
+                  );
+                },
+              ),
+            ),
+            // Porcentaje centrado
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${(progress * 100).toStringAsFixed(0)}%',
+                  style: const TextStyle(
+                    fontSize: 24, // Ajustado para el nuevo tamaño
+                    fontWeight: FontWeight.w800,
+                    color: AppTheme.primary,
+                  ),
                 ),
-              ),
-              Text(
-                'Progreso',
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              ),
-            ],
-          ),
-        ],
+                const SizedBox(height: 4),
+                Text(
+                  'Progreso',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildProgressInfo(
-    double progress,
-    double remaining,
-    BuildContext context,
-  ) {
+  Widget _buildProgressInfo(double progress, double remaining, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center, // 🔥 Centra verticalmente el contenido
       children: [
         Text(
           'OBJETIVO DIARIO',
@@ -107,7 +127,7 @@ class CalorieProgressCard extends StatelessWidget {
               TextSpan(
                 text: '${consumed.toStringAsFixed(0)}',
                 style: const TextStyle(
-                  fontSize: 32,
+                  fontSize: 28, // 🔥 Reducido para caber en el espacio reducido
                   fontWeight: FontWeight.w900,
                   color: AppTheme.primary,
                 ),
@@ -115,7 +135,7 @@ class CalorieProgressCard extends StatelessWidget {
               TextSpan(
                 text: ' / ${goal.toStringAsFixed(0)} kcal',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18, // 🔥 Reducido para caber en el espacio reducido
                   fontWeight: FontWeight.w600,
                   color: Colors.grey[700],
                 ),
@@ -143,7 +163,10 @@ class CalorieProgressCard extends StatelessWidget {
               children: [
                 Text(
                   'Restan',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                  ),
                 ),
                 Text(
                   '${remaining.toStringAsFixed(0)} kcal',
@@ -157,10 +180,7 @@ class CalorieProgressCard extends StatelessWidget {
             ),
             if (progress > 1.0)
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: AppTheme.error.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
