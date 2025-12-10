@@ -185,7 +185,7 @@ class _CalorieProgressCardState extends State<CalorieProgressCard>
             textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
-                '${widget.consumed.toStringAsFixed(0)}',
+                widget.consumed.toStringAsFixed(0),
                 style: const TextStyle(
                   fontSize: 28, // Reducido de 34
                   fontWeight: FontWeight.w900,
@@ -203,7 +203,7 @@ class _CalorieProgressCardState extends State<CalorieProgressCard>
               ),
               const SizedBox(width: 2),
               Text(
-                '${widget.goal.toStringAsFixed(0)}',
+                widget.goal.toStringAsFixed(0),
                 style: TextStyle(
                   fontSize: 24, // Reducido de 28
                   fontWeight: FontWeight.w700,

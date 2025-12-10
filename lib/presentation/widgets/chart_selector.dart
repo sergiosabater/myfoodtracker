@@ -14,7 +14,6 @@ class ChartSelector extends StatefulWidget {
 }
 
 class _ChartSelectorState extends State<ChartSelector> {
-  // 🔥 Eliminada la opción 'Año' y ajustados los textos
   static const List<Map<String, dynamic>> chartTypes = [
     {'id': 'today', 'label': 'Hoy', 'icon': Icons.today},
     {'id': 'week', 'label': 'Semana', 'icon': Icons.calendar_view_week},
@@ -41,27 +40,43 @@ class _ChartSelectorState extends State<ChartSelector> {
           ),
         ),
         const SizedBox(height: 12),
-        // Selector de periodo con ajustes para evitar overflow
         Container(
-          padding: const EdgeInsets.all(4), // 🔥 Reducido de 6
+          height: 52,
           decoration: BoxDecoration(
             color: Colors.grey[50],
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey, width: 1),
           ),
-          child: Row(
-            children: chartTypes.map((type) {
-              final bool isSelected = _selectedChart == type['id'];
-
-              return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.0), // 🔥 Reducido de 4.0
-                  child: Material(
-                    color: isSelected ? AppTheme.surface : Colors.transparent,
+          child: Stack(
+            children: [
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                left: _getIndicatorPosition(),
+                child: Container(
+                  width: _getIndicatorWidth(),
+                  height: 44,
+                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surface,
                     borderRadius: BorderRadius.circular(12),
-                    elevation: isSelected ? 2 : 0,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Row(
+                children: chartTypes.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final type = entry.value;
+                  final bool isSelected = _selectedChart == type['id'];
+                  
+                  return Expanded(
+                    child: GestureDetector(
                       onTap: () {
                         setState(() {
                           _selectedChart = type['id'];
@@ -69,65 +84,65 @@ class _ChartSelectorState extends State<ChartSelector> {
                         widget.onViewChanged(type['id']);
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12, // 🔥 Reducido de 14
-                          horizontal: 6, // 🔥 Reducido de 8
-                        ),
+                        height: 52,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: isSelected
-                              ? Border.all(
-                                  color: AppTheme.primary.withOpacity(0.1),
-                                  width: 1.5,
-                                )
-                              : null,
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.transparent,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               type['icon'],
-                              size: 16, // 🔥 Reducido de 18
+                              size: 18,
                               color: isSelected
                                   ? AppTheme.primary
                                   : Colors.grey[600],
                             ),
-                            const SizedBox(width: 4), // 🔥 Reducido de 8
-                            // 🔥 FittedBox para evitar overflow del texto
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                type['label'],
-                                style: TextStyle(
-                                  fontSize: 13, // 🔥 Reducido de 14
-                                  fontWeight: isSelected
-                                      ? FontWeight.w700
-                                      : FontWeight.w600,
-                                  color: isSelected
-                                      ? AppTheme.primary
-                                      : Colors.grey[600],
-                                ),
+                            const SizedBox(width: 6),
+                            Text(
+                              type['label'],
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: isSelected
+                                    ? FontWeight.w700
+                                    : FontWeight.w600,
+                                color: isSelected
+                                    ? AppTheme.primary
+                                    : Colors.grey[600],
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            }).toList(),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 16),
-        // Indicador de qué datos se muestran
         _buildDataIndicator(),
       ],
     );
   }
 
+  double _getIndicatorPosition() {
+    final index = chartTypes.indexWhere((type) => type['id'] == _selectedChart);
+    if (index == -1) return 4.0;
+    
+    final screenWidth = MediaQuery.of(context).size.width - 32;
+    final optionWidth = screenWidth / chartTypes.length;
+    return 4.0 + (index * optionWidth);
+  }
+
+  double _getIndicatorWidth() {
+    final screenWidth = MediaQuery.of(context).size.width - 32;
+    return (screenWidth / chartTypes.length) - 8.0;
+  }
+
   Widget _buildDataIndicator() {
-    // 🔥 Actualizado sin la opción 'year'
     final Map<String, String> infoTexts = {
       'today': 'Calorías por hora • Total: 1,250 kcal',
       'week': 'Cal/día • Promedio: 1,850 kcal',
