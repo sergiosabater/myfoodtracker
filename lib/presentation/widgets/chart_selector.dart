@@ -14,12 +14,11 @@ class ChartSelector extends StatefulWidget {
 }
 
 class _ChartSelectorState extends State<ChartSelector> {
-  // Tipos de gráficas disponibles
+  // 🔥 Eliminada la opción 'Año' y ajustados los textos
   static const List<Map<String, dynamic>> chartTypes = [
     {'id': 'today', 'label': 'Hoy', 'icon': Icons.today},
     {'id': 'week', 'label': 'Semana', 'icon': Icons.calendar_view_week},
     {'id': 'month', 'label': 'Mes', 'icon': Icons.calendar_today},
-    {'id': 'year', 'label': 'Año', 'icon': Icons.calendar_month},
   ];
 
   String _selectedChart = 'today';
@@ -42,9 +41,9 @@ class _ChartSelectorState extends State<ChartSelector> {
           ),
         ),
         const SizedBox(height: 12),
-        // Selector de periodo con efecto "segmented control"
+        // Selector de periodo con ajustes para evitar overflow
         Container(
-          padding: const EdgeInsets.all(6),
+          padding: const EdgeInsets.all(4), // 🔥 Reducido de 6
           decoration: BoxDecoration(
             color: Colors.grey[50],
             borderRadius: BorderRadius.circular(16),
@@ -56,7 +55,7 @@ class _ChartSelectorState extends State<ChartSelector> {
 
               return Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0), // 🔥 Reducido de 4.0
                   child: Material(
                     color: isSelected ? AppTheme.surface : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
@@ -71,8 +70,8 @@ class _ChartSelectorState extends State<ChartSelector> {
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 8,
+                          vertical: 12, // 🔥 Reducido de 14
+                          horizontal: 6, // 🔥 Reducido de 8
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -88,22 +87,26 @@ class _ChartSelectorState extends State<ChartSelector> {
                           children: [
                             Icon(
                               type['icon'],
-                              size: 18,
+                              size: 16, // 🔥 Reducido de 18
                               color: isSelected
                                   ? AppTheme.primary
                                   : Colors.grey[600],
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                              type['label'],
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: isSelected
-                                    ? FontWeight.w700
-                                    : FontWeight.w600,
-                                color: isSelected
-                                    ? AppTheme.primary
-                                    : Colors.grey[600],
+                            const SizedBox(width: 4), // 🔥 Reducido de 8
+                            // 🔥 FittedBox para evitar overflow del texto
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                type['label'],
+                                style: TextStyle(
+                                  fontSize: 13, // 🔥 Reducido de 14
+                                  fontWeight: isSelected
+                                      ? FontWeight.w700
+                                      : FontWeight.w600,
+                                  color: isSelected
+                                      ? AppTheme.primary
+                                      : Colors.grey[600],
+                                ),
                               ),
                             ),
                           ],
@@ -124,12 +127,11 @@ class _ChartSelectorState extends State<ChartSelector> {
   }
 
   Widget _buildDataIndicator() {
-    // Textos informativos según el periodo seleccionado
+    // 🔥 Actualizado sin la opción 'year'
     final Map<String, String> infoTexts = {
-      'today': 'Calorías por hora • Total hoy: 1,250 kcal',
-      'week': 'Calorías por día • Promedio diario: 1,850 kcal',
-      'month': 'Total semanal • Tendencia mensual',
-      'year': 'Total mensual • Evolución anual',
+      'today': 'Calorías por hora • Total: 1,250 kcal',
+      'week': 'Cal/día • Promedio: 1,850 kcal',
+      'month': 'Total semanal • Tendencia',
     };
 
     return Row(
@@ -142,24 +144,22 @@ class _ChartSelectorState extends State<ChartSelector> {
               fontSize: 13,
               color: Colors.grey[700],
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
-        // Botón para opciones adicionales (exportar, compartir, etc.)
         Material(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
-            onTap: () {
-              // TODO: Mostrar opciones adicionales
-              _showChartOptions();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            onTap: _showChartOptions,
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.more_horiz_rounded,
                 size: 20,
-                color: Colors.grey[600],
+                color: Colors.grey,
               ),
             ),
           ),
