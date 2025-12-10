@@ -39,6 +39,7 @@ dependencies:
   # 🔧 Otras Utilidades
   uuid: ^3.0.7                           # Generar IDs únicos
   image_picker: ^1.2.1                   # Cámara/galería
+  visibility_detector: ^0.4.0+2          # Detectar visibilidad de widgets
 
 
 dev_dependencies:
