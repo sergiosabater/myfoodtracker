@@ -121,60 +121,12 @@ class _ScanFoodButtonState extends State<ScanFoodButton>
                       height: 1.4,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  // Indicador de métodos alternativos
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildAlternativeMethod(
-                        icon: Icons.photo_library_outlined,
-                        label: 'Galería',
-                      ),
-                      const SizedBox(width: 20),
-                      _buildAlternativeMethod(
-                        icon: Icons.qr_code_rounded,
-                        label: 'Código',
-                      ),
-                      const SizedBox(width: 20),
-                      _buildAlternativeMethod(
-                        icon: Icons.keyboard_outlined,
-                        label: 'Manual',
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildAlternativeMethod({
-    required IconData icon,
-    required String label,
-  }) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white.withOpacity(0.15),
-          ),
-          child: Icon(icon, size: 20, color: Colors.white),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: Colors.white70,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
     );
   }
 }

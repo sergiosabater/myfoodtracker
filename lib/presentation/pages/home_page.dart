@@ -149,20 +149,11 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 32),
             // Lista de alimentos del día
             FoodList(foods: todayFoods),
-            const SizedBox(height: 100), // Espacio para el FAB
+            const SizedBox(height: 40),
           ],
         ),
       ),
-      // Botón flotante para añadir manualmente
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Navegar a pantalla de añadir manualmente
-        },
-        icon: const Icon(Icons.add),
-        label: const Text('Añadir manual'),
-        backgroundColor: AppTheme.primary,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      
     );
   }
 
