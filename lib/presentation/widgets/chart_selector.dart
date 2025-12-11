@@ -55,7 +55,8 @@ class _ChartSelectorState extends State<ChartSelector> {
                 child: Container(
                   width: _getIndicatorWidth(),
                   height: 44,
-                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                   decoration: BoxDecoration(
                     color: AppTheme.surface,
                     borderRadius: BorderRadius.circular(12),
@@ -71,10 +72,9 @@ class _ChartSelectorState extends State<ChartSelector> {
               ),
               Row(
                 children: chartTypes.asMap().entries.map((entry) {
-                  final index = entry.key;
                   final type = entry.value;
                   final bool isSelected = _selectedChart == type['id'];
-                  
+
                   return Expanded(
                     child: GestureDetector(
                       onTap: () {
@@ -131,7 +131,7 @@ class _ChartSelectorState extends State<ChartSelector> {
   double _getIndicatorPosition() {
     final index = chartTypes.indexWhere((type) => type['id'] == _selectedChart);
     if (index == -1) return 4.0;
-    
+
     final screenWidth = MediaQuery.of(context).size.width - 32;
     final optionWidth = screenWidth / chartTypes.length;
     return 4.0 + (index * optionWidth);

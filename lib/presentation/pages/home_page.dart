@@ -4,6 +4,7 @@ import 'package:my_food_tracker/presentation/widgets/calorie_progress_card.dart'
 import 'package:my_food_tracker/presentation/widgets/scan_food_button.dart';
 import 'package:my_food_tracker/presentation/widgets/chart_selector.dart';
 import 'package:my_food_tracker/presentation/widgets/food_list.dart';
+import 'package:marquee/marquee.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Datos de ejemplo para el MVP
   final double dailyGoal = 2000.0;
   final double consumedToday = 1250.0;
   final List<Map<String, dynamic>> todayFoods = [
@@ -48,8 +48,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              'Hoy, ${_formatDate(DateTime.now())}',
+            _SimpleMarquee(
+              date: DateTime.now(),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.grey[600],
                     fontSize: 16,
@@ -84,26 +84,20 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const SizedBox(height: 16),
-            // Tarjeta de progreso diario
             CalorieProgressCard(
               consumed: consumedToday,
               goal: dailyGoal,
             ),
             const SizedBox(height: 24),
-            // Botón principal para escanear comida
             const ScanFoodButton(),
             const SizedBox(height: 32),
-            // Selector de gráficas
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ChartSelector(
-                onViewChanged: (viewType) {
-                  // Cambiar gráfica según selección
-                },
+                onViewChanged: (viewType) {},
               ),
             ),
             const SizedBox(height: 24),
-            // Gráfica de líneas (placeholder por ahora)
             Container(
               height: 200,
               margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -147,18 +141,120 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 32),
-            // Lista de alimentos del día
             FoodList(foods: todayFoods),
             const SizedBox(height: 40),
           ],
         ),
       ),
-      
+    );
+  }
+}
+
+class _SimpleMarquee extends StatefulWidget {
+  final DateTime date;
+  final TextStyle? style;
+
+  const _SimpleMarquee({
+    required this.date,
+    this.style,
+  });
+
+  @override
+  State<_SimpleMarquee> createState() => _SimpleMarqueeState();
+}
+
+class _SimpleMarqueeState extends State<_SimpleMarquee> {
+  late String _formattedDate;
+  bool _shouldAnimate = false;
+  // Usamos LayoutBuilder mejor que un ancho fijo para adaptarnos a cualquier pantalla
+
+  @override
+  void initState() {
+    super.initState();
+    _formattedDate = _formatDate(widget.date);
+  }
+
+  /// Calcula si el texto es más ancho que el espacio disponible
+  bool _checkTextOverflow(String text, TextStyle style, double maxWidth) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    );
+
+    // Calculamos el tamaño sin límites de ancho
+    textPainter.layout(minWidth: 0, maxWidth: double.infinity);
+
+    // Devolvemos true si el ancho del texto es mayor al contenedor
+    return textPainter.size.width > maxWidth;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Estilo por defecto si no se pasa ninguno
+    final effectiveStyle = widget.style ??
+        const TextStyle(
+          color: Colors.grey,
+          fontSize: 16,
+        );
+
+    return SizedBox(
+      height: 24,
+      width: 280.0, // Mantenemos tu ancho deseado
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Función auxiliar para chequear si hay desbordamiento (la misma que antes)
+          final shouldScroll = _checkTextOverflow(
+              _formattedDate, effectiveStyle, constraints.maxWidth);
+
+          if (shouldScroll) {
+            return Marquee(
+              text: _formattedDate,
+              style: effectiveStyle,
+              scrollAxis: Axis.horizontal,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // 1. ESPACIO EN BLANCO: Usamos el ancho del contenedor.
+              blankSpace: constraints.maxWidth,
+              velocity: 30.0,
+
+              // 2. PAUSA: Cero duración para que siga inmediatamente.
+              pauseAfterRound: Duration.zero,
+
+              // Eliminamos startAfter, accelerationDuration, y decelerationDuration
+              // para asegurar que el movimiento sea constante y sin interrupciones.
+            );
+          } else {
+            return Text(
+              _formattedDate,
+              style: effectiveStyle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            );
+          }
+        },
+      ),
     );
   }
 
   String _formatDate(DateTime date) {
-    return '${date.day} de ${_getMonthName(date.month)} de ${date.year}';
+    final weekday = _getWeekdayName(date.weekday);
+    final day = date.day;
+    final month = _getMonthName(date.month);
+    final year = date.year;
+    return '$weekday, $day de $month de $year';
+  }
+
+  String _getWeekdayName(int weekday) {
+    const weekdays = [
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo'
+    ];
+    return weekdays[weekday - 1];
   }
 
   String _getMonthName(int month) {
