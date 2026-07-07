@@ -161,7 +161,7 @@ class _FoodListState extends State<FoodList> {
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
           padding: const EdgeInsets.only(right: 20),
           decoration: BoxDecoration(
-            color: AppTheme.error.withOpacity(0.1),
+            color: AppTheme.error.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(16),
           ),
           alignment: Alignment.centerRight,
@@ -349,13 +349,13 @@ class _FoodListState extends State<FoodList> {
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
           side: BorderSide(
-            color: AppTheme.primary.withOpacity(0.3),
+            color: AppTheme.primary.withValues(alpha:0.3),
             width: 1.5,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
-          backgroundColor: AppTheme.primary.withOpacity(0.03),
+          backgroundColor: AppTheme.primary.withValues(alpha:0.03),
         ),
       ),
     );

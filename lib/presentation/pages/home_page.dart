@@ -165,8 +165,6 @@ class _SimpleMarquee extends StatefulWidget {
 
 class _SimpleMarqueeState extends State<_SimpleMarquee> {
   late String _formattedDate;
-  bool _shouldAnimate = false;
-  // Usamos LayoutBuilder mejor que un ancho fijo para adaptarnos a cualquier pantalla
 
   @override
   void initState() {
@@ -174,7 +172,6 @@ class _SimpleMarqueeState extends State<_SimpleMarquee> {
     _formattedDate = _formatDate(widget.date);
   }
 
-  /// Calcula si el texto es más ancho que el espacio disponible
   bool _checkTextOverflow(String text, TextStyle style, double maxWidth) {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(text: text, style: style),
@@ -182,16 +179,12 @@ class _SimpleMarqueeState extends State<_SimpleMarquee> {
       textDirection: TextDirection.ltr,
     );
 
-    // Calculamos el tamaño sin límites de ancho
     textPainter.layout(minWidth: 0, maxWidth: double.infinity);
-
-    // Devolvemos true si el ancho del texto es mayor al contenedor
     return textPainter.size.width > maxWidth;
   }
 
   @override
   Widget build(BuildContext context) {
-    // Estilo por defecto si no se pasa ninguno
     final effectiveStyle = widget.style ??
         const TextStyle(
           color: Colors.grey,
@@ -200,10 +193,9 @@ class _SimpleMarqueeState extends State<_SimpleMarquee> {
 
     return SizedBox(
       height: 24,
-      width: 280.0, // Mantenemos tu ancho deseado
+      width: 280.0,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          // Función auxiliar para chequear si hay desbordamiento (la misma que antes)
           final shouldScroll = _checkTextOverflow(
               _formattedDate, effectiveStyle, constraints.maxWidth);
 
@@ -213,15 +205,9 @@ class _SimpleMarqueeState extends State<_SimpleMarquee> {
               style: effectiveStyle,
               scrollAxis: Axis.horizontal,
               crossAxisAlignment: CrossAxisAlignment.center,
-              // 1. ESPACIO EN BLANCO: Usamos el ancho del contenedor.
               blankSpace: constraints.maxWidth,
               velocity: 30.0,
-
-              // 2. PAUSA: Cero duración para que siga inmediatamente.
               pauseAfterRound: Duration.zero,
-
-              // Eliminamos startAfter, accelerationDuration, y decelerationDuration
-              // para asegurar que el movimiento sea constante y sin interrupciones.
             );
           } else {
             return Text(

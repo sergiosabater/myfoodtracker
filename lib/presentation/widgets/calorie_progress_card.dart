@@ -227,8 +227,8 @@ class _CalorieProgressCardState extends State<CalorieProgressCard>
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: _progress >= 1.0
-                ? AppTheme.error.withOpacity(0.08)
-                : AppTheme.secondary.withOpacity(0.08),
+                ? AppTheme.error.withValues(alpha: 0.08)
+                : AppTheme.secondary.withValues(alpha:0.08),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(

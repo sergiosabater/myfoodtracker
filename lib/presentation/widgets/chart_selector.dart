@@ -62,7 +62,7 @@ class _ChartSelectorState extends State<ChartSelector> {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withValues(alpha:0.05),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -257,7 +257,7 @@ class _ChartSelectorState extends State<ChartSelector> {
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: AppTheme.primary.withOpacity(0.1),
+          color: AppTheme.primary.withValues(alpha:0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(icon, color: AppTheme.primary),

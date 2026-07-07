@@ -74,7 +74,7 @@ class _ScanFoodButtonState extends State<ScanFoodButton>
                 gradient: AppTheme.primaryGradient,
                 boxShadow: [
                   BoxShadow(
-                    color: AppTheme.primary.withOpacity(0.3),
+                    color: AppTheme.primary.withValues(alpha:0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -85,14 +85,14 @@ class _ScanFoodButtonState extends State<ScanFoodButton>
                 children: [
                   // Efecto glossy en el icono
                   Shimmer.fromColors(
-                    baseColor: Colors.white.withOpacity(0.9),
+                    baseColor: Colors.white.withValues(alpha:0.9),
                     highlightColor: Colors.white,
                     period: const Duration(seconds: 2),
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha:0.2),
                       ),
                       child: const Icon(
                         Icons.camera_alt_rounded,

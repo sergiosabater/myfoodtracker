@@ -4,50 +4,59 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  # 📱 UI Moderna & Animaciones
+  # UI & Animations
   cupertino_icons: ^1.0.6
-  flutter_svg: ^2.0.9                    # Para iconos e ilustraciones modernas
-  shimmer: ^3.0.0                        # Efectos de brillo/loading (glossy)
-  animated_text_kit: ^4.2.2              # Textos animados
-  page_transition: ^2.0.9                # Transiciones personalizadas entre pantallas
-  confetti: ^0.7.0                       # Efectos de celebración (para metas alcanzadas)
-  liquid_swipe: ^3.1.0                   # Transiciones fluidas tipo "onboarding"
+  flutter_svg: ^2.0.9
+  shimmer: ^3.0.0
+  animated_text_kit: ^4.2.2
+  page_transition: ^2.0.9
+  confetti: ^0.7.0
+  liquid_swipe: ^3.1.0
 
-  # 🏗️ Arquitectura & Estado (BLoC)
-  flutter_bloc: ^8.1.3
-  bloc: ^8.1.2
-  equatable: ^2.0.5                      # Para comparar objetos fácilmente
+  # State Management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
 
-  # 💾 Base de Datos (SQFlite) & Persistencia
-  sqflite: ^2.3.0
-  path: ^1.8.3
-  path_provider: ^2.0.15
+  # Navigation
+  go_router: ^14.0.0
 
-  # 📅 Utilidades Fecha/Hora
-  intl: ^0.18.1                          # Formateo de fechas, números, etc.
-  table_calendar: ^3.0.9                 # Para vista de calendario (historial)
+  # Database - Drift (SQLite)
+  drift: ^2.20.0
+  drift_flutter: ^0.2.0
 
-  # 📊 Gráficas
-  fl_chart: ^0.66.2                      # Gráficos muy personalizables y modernos
+  # Utils
+  intl: ^0.19.0
+  uuid: ^4.0.0
+  path: ^1.9.0
+  path_provider: ^2.1.0
 
-  # 🔧 Otras Utilidades
-  uuid: ^3.0.7                           # Generar IDs únicos
-  image_picker: ^1.2.1                   # Cámara/galería
-  visibility_detector: ^0.4.0+2          # Detectar visibilidad de widgets
+  # Charts
+  fl_chart: ^0.69.0
+
+  # Camera & Media
+  image_picker: ^1.2.1
+
+  # Subscription Management (Freemium) - RevenueCat
+  purchases_flutter: ^8.0.0
+
+  # Other
+  visibility_detector: ^0.4.0
   marquee: ^2.3.0
-
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1                  # Análisis de código mejorado
-  bloc_test: ^9.1.4                      # Para testear BLoCs
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.0
+  riverpod_generator: ^2.4.0
+  drift_dev: ^2.20.0
 
 flutter:
   uses-material-design: true
