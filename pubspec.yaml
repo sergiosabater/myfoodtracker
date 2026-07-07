@@ -49,6 +49,7 @@ dependencies:
   # Other
   visibility_detector: ^0.4.0
   marquee: ^2.3.0
+  riverpod: ^2.6.1
 
 dev_dependencies:
   flutter_test:
