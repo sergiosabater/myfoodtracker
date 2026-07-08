@@ -95,3 +95,102 @@ This project is being developed step by step as a professional-grade learning ex
  ┃ ┣ 📂 widgets/
  ┃ ┗ 📂 models/
  ┗ 🚀 main.dart
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Flutter SDK (3.19 or higher)
+- Dart SDK (3.3 or higher)
+- Android Studio / VS Code
+- iOS Simulator or Android Emulator
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+# Navigate to project directory
+cd my_food_tracker
+# Install dependencies
+flutter pub get
+# Generate code (Riverpod + Drift)
+flutter pub run build_runner build --delete-conflicting-outputs
+# Run the app
+flutter run
+```
+
+## 💡 Usage Guide
+
+1. **📊 Check Your Daily Progress**  
+   Open the app to see your current calorie consumption vs daily goal with a beautiful animated progress ring.
+
+2. **📸 Scan or Add Meals**  
+   Tap the prominent **"ESCANEAR COMIDA"** button (AI camera coming in Phase 2) or use "Añadir alimento manualmente".
+
+3. **📋 Manage Your Food Log**  
+   Swipe left on any food item to delete it (with undo option). Tap any entry to see detailed information.
+
+4. **📅 Switch Views**  
+   Use the selector (Hoy / Semana / Mes) to explore different time periods and upcoming statistics.
+
+5. **⚙️ Settings & Subscription**  
+   Access settings and manage your subscription (30-day free trial → monthly or yearly plan).
+
+---
+
+## 📝 Roadmap
+
+### 🎯 Upcoming Features
+- **🤖 AI Food Recognition** – Camera scan with Gemini API or ML Kit
+- **📊 Advanced Analytics** – Full integration with `fl_chart` (calories per hour, macros, trends)
+- **👤 User Profile** – Personalized goals (weight, activity level, macro targets)
+- **🔔 Smart Reminders** – Meal time and hydration notifications
+- **📤 Export & Share** – Generate reports and share progress
+- **🌐 Cloud Sync** – Backup and multi-device support
+- **🏆 Achievements & Streaks** – Gamification elements
+- **Freemium System** – Full 30-day trial + paid subscription via RevenueCat + Stripe
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/amazing-feature`)
+3. Commit your Changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the Branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📧 Contact
+
+**Sergio Sabater**  
+Email: sergiosabater@gmail.com
+
+---
+
+<div align="center">
+### Start tracking your nutrition today!
+
+*Built with Flutter and passion*
+
+<br><br>
+
+**⭐ If you like the project, give it a star! ⭐**
+
+</div>
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+  Made with ❤️ and 🥗 by <strong>Sergio Sabater</strong>
+</div>
