@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_food_tracker/features/home/presentation/home_page.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const Scaffold(
-        body: Center(
-          child: Text('MyFoodTracker - Loading...'),
-        ),
-      ),
+      builder: (context, state) => const HomePage(),
     ),
   ],
 );
