@@ -5,27 +5,16 @@ part 'food_log_repository.g.dart';
 
 @Riverpod(keepAlive: true)
 class FoodLogRepository extends _$FoodLogRepository {
-  final AppDatabase _db = AppDatabase();
-
   @override
   Future<List<FoodEntry>> build() async {
-    return [];
-  }
-
-  Future<int> insertFood(FoodEntriesCompanion entry) async {
-    return await _db.into(_db.foodEntries).insert(entry);
-  }
-
-  Future<bool> deleteFood(int id) async {
-    final count = await (_db.delete(_db.foodEntries)..where((tbl) => tbl.id.equals(id))).go();
-    return count > 0;
-  }
-
-  Future<List<FoodEntry>> getTodayEntries() async {
-    return [];
-  }
-
-  Stream<List<FoodEntry>> watchTodayEntries() {
-    return Stream.value([]);
+    // Datos de prueba para asegurar que se muestren
+    final now = DateTime.now();
+    return [
+      FoodEntry(id: 1, name: 'Manzana', calories: 95, date: now, time: '08:30', icon: '🍎'),
+      FoodEntry(id: 2, name: 'Sándwich de pavo', calories: 320, date: now, time: '13:15', icon: '🥪'),
+      FoodEntry(id: 3, name: 'Yogur griego', calories: 150, date: now, time: '11:00', icon: '🥛'),
+      FoodEntry(id: 4, name: 'Ensalada César', calories: 450, date: now, time: '14:45', icon: '🥗'),
+      FoodEntry(id: 5, name: 'Batido proteico', calories: 235, date: now, time: '18:20', icon: '🥤'),
+    ];
   }
 }

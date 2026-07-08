@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_food_tracker/core/theme/app_theme.dart';
-import 'package:my_food_tracker/features/home/presentation/providers/home_provider.dart';
 import 'package:my_food_tracker/features/food_log/data/repositories/food_log_repository.dart';
 import 'package:my_food_tracker/presentation/widgets/calorie_progress_card.dart';
 import 'package:my_food_tracker/presentation/widgets/scan_food_button.dart';
@@ -21,14 +20,23 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final foodRepository = ref.watch(foodLogRepositoryProvider);
+    final foodAsync = ref.watch(foodLogRepositoryProvider);
 
-    // Datos hardcodeados temporalmente (los reemplazaremos pronto)
-    final consumedToday = 1250.0;
-    final todayFoods = [
-      {'name': 'Manzana', 'calories': 95, 'time': '08:30', 'icon': '🍎'},
-      {'name': 'Sándwich de pavo', 'calories': 320, 'time': '13:15', 'icon': '🥪'},
-    ];
+    final todayFoods = foodAsync.when(
+      data: (entries) => entries
+          .map((e) => {
+                'name': e.name,
+                'calories': e.calories.toInt(),
+                'time': e.time ?? 'Sin hora',
+                'icon': e.icon ?? '🍽️',
+              })
+          .toList(),
+      loading: () => <Map<String, dynamic>>[],
+      error: (error, stack) {
+        print('Error cargando alimentos: $error');
+        return <Map<String, dynamic>>[];
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -56,8 +64,14 @@ class _HomePageState extends ConsumerState<HomePage> {
           ],
         ),
         actions: [
-          IconButton(icon: const Icon(Icons.insights_outlined), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.insights_outlined),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () {},
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -65,7 +79,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           children: [
             const SizedBox(height: 16),
             CalorieProgressCard(
-              consumed: consumedToday,
+              consumed: 1250.0,
               goal: dailyGoal,
             ),
             const SizedBox(height: 24),
@@ -78,7 +92,6 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
             ),
             const SizedBox(height: 24),
-            // Placeholder de gráfica
             Container(
               height: 200,
               margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -100,7 +113,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 }
 
-// Mantén la clase _SimpleMarquee igual que antes
+// _SimpleMarquee se mantiene igual (sin cambios)
 class _SimpleMarquee extends StatefulWidget {
   final DateTime date;
   final TextStyle? style;
@@ -132,14 +145,16 @@ class _SimpleMarqueeState extends State<_SimpleMarquee> {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveStyle = widget.style ?? const TextStyle(color: Colors.grey, fontSize: 16);
+    final effectiveStyle =
+        widget.style ?? const TextStyle(color: Colors.grey, fontSize: 16);
 
     return SizedBox(
       height: 24,
       width: 280.0,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final shouldScroll = _checkTextOverflow(_formattedDate, effectiveStyle, constraints.maxWidth);
+          final shouldScroll = _checkTextOverflow(
+              _formattedDate, effectiveStyle, constraints.maxWidth);
           if (shouldScroll) {
             return Marquee(
               text: _formattedDate,
@@ -150,7 +165,8 @@ class _SimpleMarqueeState extends State<_SimpleMarquee> {
               pauseAfterRound: Duration.zero,
             );
           } else {
-            return Text(_formattedDate, style: effectiveStyle, overflow: TextOverflow.ellipsis);
+            return Text(_formattedDate,
+                style: effectiveStyle, overflow: TextOverflow.ellipsis);
           }
         },
       ),
@@ -158,9 +174,29 @@ class _SimpleMarqueeState extends State<_SimpleMarquee> {
   }
 
   String _formatDate(DateTime date) {
-    // ... (mantén tu implementación original de formato de fecha)
-    final weekday = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'][date.weekday - 1];
-    final month = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'][date.month - 1];
+    final weekday = [
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo'
+    ][date.weekday - 1];
+    final month = [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre'
+    ][date.month - 1];
     return '$weekday, ${date.day} de $month de ${date.year}';
   }
 }

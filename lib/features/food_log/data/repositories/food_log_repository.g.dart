@@ -6,7 +6,7 @@ part of 'food_log_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$foodLogRepositoryHash() => r'd5d75bd7bea3e210e715f8a793de1b1e2ab07fac';
+String _$foodLogRepositoryHash() => r'2ce4bc6ffa94b7182f390886af550a31720e810d';
 
 /// See also [FoodLogRepository].
 @ProviderFor(FoodLogRepository)

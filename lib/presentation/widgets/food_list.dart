@@ -22,6 +22,17 @@ class _FoodListState extends State<FoodList> {
     _foods = List.from(widget.foods);
   }
 
+  @override
+  void didUpdateWidget(covariant FoodList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Si la lista de alimentos cambió, actualizamos nuestra copia local
+    if (oldWidget.foods != widget.foods) {
+      setState(() {
+        _foods = List.from(widget.foods);
+      });
+    }
+  }
+
   void _removeFoodItem(int index) {
     // Animación de eliminación
     setState(() {

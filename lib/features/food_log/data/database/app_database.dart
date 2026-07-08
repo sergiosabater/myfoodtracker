@@ -29,6 +29,6 @@ class AppDatabase extends _$AppDatabase {
 QueryExecutor _openConnection() {
   return driftDatabase(
     name: 'my_food_tracker',
-    native: DriftNativeOptions(shareAcrossIsolates: true),
+    native: const DriftNativeOptions(shareAcrossIsolates: true),
   );
 }
